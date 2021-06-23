@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/PracticeCore/.vs/PracticeCore
+/PracticeCore/PracticeCore/bin/Debug/netcoreapp3.1
+/PracticeCore/PracticeCore/obj
