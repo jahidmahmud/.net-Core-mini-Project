@@ -1,0 +1,106 @@
+﻿@model PracticeCore.Models.Book;
+@using PracticeCore.Enums;
+@{
+    ViewData["Title"] = "AddNewBook";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var languages = ViewBag.list;
+}
+
+<div class="container">
+    <h3 class="display-4">Add new book</h3>
+    @if (ViewBag.success)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Congratulations!</strong> Book Added Successfully.
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <br />Click Here for Details
+        </div>
+    }
+    <div class="d-flex justify-content-center" >
+        <div class="spinner-border" role="status" id="myLoader" style="display:none;">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data" data-ajax="true" data-ajax-loading="#myLoader" asp-action="AddNewBook" asp-controller="Book">
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label asp-for="title"></label>
+            <input asp-for="title" class="form-control" />
+            <span asp-validation-for="title"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="author"></label>
+            <input asp-for="author" class="form-control" />
+            <span asp-validation-for="author"></span>
+        </div>
+
+        <!--<div class="form-group">
+    <label asp-for="LanguageEnum" class="control-label"></label>
+    <select asp-for="LanguageEnum" class="form-control" asp-items="Html.GetEnumSelectList<LanguageEnum>()">
+        <option value="">Please choose book language</option>-->
+        @*<option value="Bangla">Bangla (One of the best language)</option>
+        <option value="English">English (Global language)</option>
+        <option value="Dutch">Dutch (My cutom message)</option>*@
+        <!--</select>
+        <span asp-validation-for="Language"></span>
+    </div>-->
+        <div class="form-group">
+            <label asp-for="LanguageId" class="control-label"></label>
+            <select asp-for="LanguageId" class="form-control" asp-items="Html.GetEnumSelectList<LanguageEnum>()">
+                <option value="">Please choose book language</option>
+            </select>
+            <span asp-validation-for="LanguageId"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Totalpage"></label>
+            <input asp-for="Totalpage" class="form-control" />
+            <span asp-validation-for="Totalpage"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CoverPhoto" class="control-label"></label>
+            <div class="custom-file">
+                <input asp-for="CoverPhoto" class="custom-file-input form-control" id="customFile">
+            </div>
+            <span asp-validation-for="CoverPhoto"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GalaryFiles" class="control-label"></label>
+            <div class="custom-file">
+                <input asp-for="GalaryFiles" class="custom-file-input form-control" id="customFile">
+            </div>
+            <span asp-validation-for="GalaryFiles"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BookPdf" class="control-label"></label>
+            <div class="custom-file">
+                <input asp-for="BookPdf" class="custom-file-input form-control" id="customFile">
+            </div>
+            <span asp-validation-for="BookPdf"></span>
+        </div>
+
+        <div class="form-group py-3">
+            <input type="submit" value="Add book" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@*@section script{ 
+<script>
+    function myFunction() {
+        alert("completed");
+    }
+</script>
+
+}*@
+

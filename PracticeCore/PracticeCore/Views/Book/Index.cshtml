@@ -1,0 +1,29 @@
+﻿@model IEnumerable<PracticeCore.Models.Book>
+@{ 
+    ViewData["title1"] = "Book List";
+}
+<div class="container">
+    <h1>Books</h1>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="@item.CoverUrl" class="img-fluid img-thumbnail"/>
+                    <div class="card-body">
+                        <h3 class="card-title">@item.title</h3>
+                        <p class="card-text">@item.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a asp-route="BookDetails" asp-route-id="@item.id" class="btn btn-sm btn-outline-secondary">View details</a>
+                            </div>
+                            <small class="text-muted">@item.author</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
