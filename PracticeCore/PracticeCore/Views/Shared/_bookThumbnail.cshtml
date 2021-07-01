@@ -1,0 +1,14 @@
+﻿@model PracticeCore.Models.Book;
+<div class="card mb-4 shadow-sm">
+    <img src="@(string.IsNullOrEmpty(Model.CoverUrl)? "/images/12.jpg" : Model.CoverUrl)" class="img-fluid img-thumbnail" />
+    <div class="card-body">
+        <h3 class="card-title">@(string.IsNullOrEmpty(Model.title)? "Title is not available" : Model.title)</h3>
+        <p class="card-text">@(string.IsNullOrEmpty(Model.Description)? "Description is not available" : Model.Description)</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+                <a asp-route="BookDetails" asp-route-id="@Model.id" class="btn btn-sm btn-outline-secondary">View details</a>
+            </div>
+            <small class="text-muted">@(string.IsNullOrEmpty(Model.author)? "author is not available" : Model.author)</small>
+        </div>
+    </div>
+</div>

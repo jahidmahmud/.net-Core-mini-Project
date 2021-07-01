@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PracticeCore.Models;
 using PracticeCore.Repository;
+using PracticeCore.Services;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -13,23 +15,28 @@ using System.Threading.Tasks;
 
 namespace PracticeCore.Controllers
 {
+    [Route("[controller]/[action]")]
     public class BookController : Controller
     {
-        BookRepository bookrepo;
-        LanguageRepository langrepo;
+        IBookRepository bookrepo;
+        ILanguageRepository langrepo;
         IWebHostEnvironment webenvironment;
-        public BookController(BookRepository br,LanguageRepository lr, IWebHostEnvironment webhostenvironment)
+        private readonly IUserService _userService;
+
+        public BookController(IBookRepository br,ILanguageRepository lr, IWebHostEnvironment webhostenvironment,IUserService userService)
         {
             bookrepo =br;
             langrepo = lr;
             webenvironment = webhostenvironment;
+            _userService = userService;
         }
         public async Task<IActionResult> Index()
         {
+            var userid = _userService.getUserId();
             var data =await bookrepo.GetAll();
             return View(data);
         }
-        [Route("GetBook/{id}",Name ="BookDetails")]
+        [Route("~/GetBook/{id:int:min(1)}",Name ="BookDetails")]
         public async Task<IActionResult> GetBookById(int id)
         {
             var data =await bookrepo.GetById(id);
@@ -39,6 +46,7 @@ namespace PracticeCore.Controllers
         //{
         //    return bookrepo.SearchBook(title,author);
         //}
+        [Authorize]
         public async Task<IActionResult> AddNewBook(bool issuccess=false)
         {
             //ViewBag.list = new SelectList(new List<String>() { "Bangla","English","Urdu" });
@@ -57,8 +65,8 @@ namespace PracticeCore.Controllers
             //    new SelectListItem(){Text="Tamil",Value="3",Group=grp1},
             //    new SelectListItem(){Text="Urdu",Value="4",Group=grp2}
             //};
-            var languages = await langrepo.GetAll();
-            ViewBag.list =new SelectList(languages,"Id","Name");
+            //var languages = await langrepo.GetAll();
+            //ViewBag.list =new SelectList(languages,"Id","Name");
             ViewBag.success = issuccess;
             return View();
         }
@@ -112,8 +120,8 @@ namespace PracticeCore.Controllers
             //Text= x.Text,
             //Value=x.Id.ToString()
             //}).ToList();
-            var languages = await langrepo.GetAll();
-            ViewBag.list = new SelectList(languages, "Id", "Name");
+            //var languages = await langrepo.GetAll();
+            //ViewBag.list = new SelectList(languages, "Id", "Name");
             ViewBag.success = false;
             return View();
 

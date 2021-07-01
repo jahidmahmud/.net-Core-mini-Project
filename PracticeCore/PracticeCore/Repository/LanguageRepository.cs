@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PracticeCore.Repository
 {
-    public class LanguageRepository
+    public class LanguageRepository : ILanguageRepository
     {
         BookStoreContext context;
         public LanguageRepository(BookStoreContext context1)

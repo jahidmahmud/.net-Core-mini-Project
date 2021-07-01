@@ -1,9 +1,10 @@
 ﻿@model PracticeCore.Models.Book;
+@inject PracticeCore.Repository.ILanguageRepository lanrepo;
 @using PracticeCore.Enums;
 @{
     ViewData["Title"] = "AddNewBook";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var languages = ViewBag.list;
+    //var languages = ViewBag.list;
 }
 
 <div class="container">
@@ -50,7 +51,7 @@
     </div>-->
         <div class="form-group">
             <label asp-for="LanguageId" class="control-label"></label>
-            <select asp-for="LanguageId" class="form-control" asp-items="Html.GetEnumSelectList<LanguageEnum>()">
+            <select asp-for="LanguageId" class="form-control" asp-items="(await lanrepo.GetAll()).Select(x => new SelectListItem() { Text=x.Name,Value=x.Id.ToString() });">
                 <option value="">Please choose book language</option>
             </select>
             <span asp-validation-for="LanguageId"></span>

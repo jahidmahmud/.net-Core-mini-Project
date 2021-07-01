@@ -8,31 +8,56 @@ using System.Threading.Tasks;
 
 namespace PracticeCore.Repository
 {
-    public class BookRepository
+    public class BookRepository : IBookRepository
     {
         BookStoreContext context;
         public BookRepository(BookStoreContext context1)
         {
             context = context1;
         }
-            public async Task<List<Book>> GetAll()
+        public async Task<List<Book>> GetAll()
         {
             var book = new List<Book>();
             var allbooks = await context.Books.ToListAsync();
             if (allbooks?.Any() == true)
             {
-               foreach(var item in allbooks)
+                foreach (var item in allbooks)
                 {
                     book.Add(new Book()
                     {
-                        id=item.id,
-                        title=item.title,
-                        author=item.author,
-                        Description=item.Description,
-                        Category=item.Category,
-                        LanguageId=item.LanguageId,
-                        Totalpage =item.Totalpage,
-                        CoverUrl=item.Cover
+                        id = item.id,
+                        title = item.title,
+                        author = item.author,
+                        Description = item.Description,
+                        Category = item.Category,
+                        LanguageId = item.LanguageId,
+                        Totalpage = item.Totalpage,
+                        CoverUrl = item.Cover
+                    });
+                }
+            }
+
+            return book;
+        }
+
+        public async Task<List<Book>> GetTopBookAsync()
+        {
+            var book = new List<Book>();
+            var allbooks = await context.Books.Take(5).ToListAsync();
+            if (allbooks?.Any() == true)
+            {
+                foreach (var item in allbooks)
+                {
+                    book.Add(new Book()
+                    {
+                        id = item.id,
+                        title = item.title,
+                        author = item.author,
+                        Description = item.Description,
+                        Category = item.Category,
+                        LanguageId = item.LanguageId,
+                        Totalpage = item.Totalpage,
+                        CoverUrl = item.Cover
                     });
                 }
             }
@@ -47,9 +72,9 @@ namespace PracticeCore.Repository
                 author = b.author,
                 Description = b.Description,
                 Totalpage = b.Totalpage,
-                LanguageId=b.LanguageId,
-                Cover=b.CoverUrl,
-                BookPdfUrl=b.BookPdfUrl,
+                LanguageId = b.LanguageId,
+                Cover = b.CoverUrl,
+                BookPdfUrl = b.BookPdfUrl,
                 CreatedOn = DateTime.UtcNow,
                 UpdatedOn = DateTime.UtcNow
             };
@@ -58,8 +83,8 @@ namespace PracticeCore.Repository
             {
                 galary.Add(new BookGalary()
                 {
-                    Name=file.Name,
-                    Url=file.Url
+                    Name = file.Name,
+                    Url = file.Url
                 });
             }
             book.bookGalary = galary;
@@ -72,7 +97,8 @@ namespace PracticeCore.Repository
         {
             //var item=await context.Books.FindAsync(id);
             return await context.Books.Where(x => x.id == id).
-                Select(book => new Book() {
+                Select(book => new Book()
+                {
                     id = book.id,
                     title = book.title,
                     author = book.author,
@@ -82,12 +108,12 @@ namespace PracticeCore.Repository
                     Language = book.Language.Name,
                     Totalpage = book.Totalpage,
                     CoverUrl = book.Cover,
-                    BookPdfUrl=book.BookPdfUrl,
+                    BookPdfUrl = book.BookPdfUrl,
                     Galary = book.bookGalary.Select(x => new GalaryModel()
                     {
-                        Id=x.Id,
-                        Name=x.Name,
-                        Url=x.Url
+                        Id = x.Id,
+                        Name = x.Name,
+                        Url = x.Url
                     }).ToList()
                 }).FirstOrDefaultAsync();
             //Book b = new Book();
