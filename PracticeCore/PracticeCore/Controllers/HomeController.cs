@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PracticeCore.Models;
 using PracticeCore.Services;
 using System;
@@ -39,6 +40,7 @@ namespace PracticeCore.Controllers
         {
             return View();
         }
+        [Authorize(Roles ="Admin")]
         //[Route("about-us")]
         public IActionResult AboutUs()
         {

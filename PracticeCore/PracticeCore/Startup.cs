@@ -52,6 +52,14 @@ namespace PracticeCore
                 option.Password.RequireUppercase = false;
 
                 option.SignIn.RequireConfirmedEmail = true;
+                //if wrong password 5 times then he will blocked by 10 min
+                option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                option.Lockout.MaxFailedAccessAttempts = 3;
+            });
+            //token timespan
+            services.Configure<DataProtectionTokenProviderOptions>(option =>
+            {
+                option.TokenLifespan = TimeSpan.FromMinutes(10);
             });
             services.ConfigureApplicationCookie(cookie=>
             {
@@ -100,6 +108,10 @@ namespace PracticeCore
                 //});
                 //endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "AdminRoute",
+                    pattern: "{ area: exists}/{ controller = Home}/{ action = Index}/{ id ?}"
+                    );
                 //endpoints.MapControllerRoute(
                 //    name: "Default",
                 //    pattern: "BookApp/{controller=Home}/{action=Index}/{id?}"

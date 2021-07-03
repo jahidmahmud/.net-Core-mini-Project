@@ -70,7 +70,7 @@ namespace PracticeCore.Repository
         }
         public async Task<SignInResult> LogIn(SignInModel signin)
         {
-            var result = await _signInManager.PasswordSignInAsync(signin.Email,signin.Password,signin.RememberMe,false);
+            var result = await _signInManager.PasswordSignInAsync(signin.Email,signin.Password,signin.RememberMe,true);
             return result;
         }
         public async Task SignOut()
